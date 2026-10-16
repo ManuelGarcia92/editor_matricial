@@ -10,9 +10,12 @@ class Editor:
     def editar(self):
         while True:
             self.renderizar()
-            entrada = input()
+            entrada = input()  
 
-            if entrada == "info":
+            if entrada == "break":
+                break
+
+            elif entrada == "info":
                 self.info()
 
             elif entrada == "+y":
@@ -59,6 +62,8 @@ class Editor:
 
             self.renderizar()
 
+        return self.matriz
+    
     @staticmethod
     def limpiar_terminal() -> None:
         import os
@@ -68,6 +73,7 @@ class Editor:
         self.limpiar_terminal()
         print("======Versión v5.5======")
         print("::::::::COMANDOS::::::::")
+        print("break      : salir")
         print("info       : ver comandos")
         print("enter      : añadir nueva linea")
         print("espacio    : añadir espacio")
@@ -170,6 +176,7 @@ class Editor:
         
 
 editor = Editor()
-editor.editar()
+resultado = editor.editar()
+print(resultado)
 
     
