@@ -69,26 +69,26 @@ class Editor:
         import os
         os.system("cls" if os.name == "nt" else "clear")
 
-    def info(self):
+    def _info(self):
         self.limpiar_terminal()
         print("======Versión v5.5======")
         print("::::::::COMANDOS::::::::")
         print("break      : salir")
         print("info       : ver comandos")
-        print("enter      : añadir nueva linea")
+        print("enter      : añadir nueva línea")
         print("espacio    : añadir espacio")
         print("caracteres : añadir caracteres")
         print("+y         : arriba")
         print("-y         : abajo")
         print("-x         : izquierda")
         print("+x         : derecha")
-        print("+y+        : primera linea")
-        print("-y-        : ultima linea")
-        print("+x+        : principio de linea")
-        print("-x-        : fin de la linea")
-        print("y--        : eliminar linea actual")
-        print("x--        : limpiar linea actual")
-        print("--y        : eliminar ultima linea")
+        print("+y+        : primera línea")
+        print("-y-        : última línea")
+        print("+x+        : principio de línea")
+        print("-x-        : fin de la línea")
+        print("y--        : eliminar línea actual")
+        print("x--        : limpiar línea actual")
+        print("--y        : eliminar última línea")
         print("--x        : eliminar caracter")
         input()
 
@@ -109,15 +109,14 @@ class Editor:
     def _arriba(self):
         if self.cursor_y > 0:
             self.cursor_y -= 1
-            self.cursor_x = len(self.matriz[self.cursor_y]) - 1
+            self.cursor_x = min(self.cursor_x, len(self.matriz[self.cursor_y]) - 1)
 
     def _abajo(self):
         if self.cursor_y == len(self.matriz) - 1:
             self.matriz.append([" "])
             self.cursor_x = 0
         self.cursor_y += 1
-        if len(self.matriz[self.cursor_y]) > 1:
-            self.cursor_x = len(self.matriz[self.cursor_y]) - 1
+        self.cursor_x = min(self.cursor_x, len(self.matriz[self.cursor_y]) - 1)
         
     def _izquierda(self):
         if self.cursor_x > 0:
@@ -168,13 +167,15 @@ class Editor:
         if len(self.matriz) > 1:
             self.matriz.pop()
             self.cursor_y = min(self.cursor_y, len(self.matriz) - 1)
+        else:
+            self.matriz[0] = [" "]
+        self.cursor_x = 0
 
     def añadir_entrada(self, entrada):
         x = self.cursor_x + 1
         self.matriz[self.cursor_y][x:x] = list(entrada)
         self.cursor_x += len(entrada)
         
-
 editor = Editor()
 resultado = editor.editar()
 print(resultado)
