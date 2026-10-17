@@ -16,7 +16,7 @@ class Editor:
                 break
 
             elif entrada == "info":
-                self.info()
+                self._info()
 
             elif entrada == "+y":
                 self._arriba()
