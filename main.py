@@ -1,4 +1,5 @@
 import readline
+import curses
 
 class Editor:
     def __init__(self):
@@ -51,11 +52,17 @@ class Editor:
             elif entrada == "x--":
                 self._limpiar_linea_actual()
 
+            elif entrada == "x++":
+                self._tabulacion()
+
             elif entrada == "--y":
                 self._eliminar_ultima_linea()
 
             elif entrada == "--x": 
                 self._eliminar_caracter()
+
+            elif entrada == "x++":
+                self._tabulacion_inversa()
 
             else:
                 self._añadir(entrada)
@@ -66,29 +73,6 @@ class Editor:
     def limpiar_terminal() -> None:
         import os
         os.system("cls" if os.name == "nt" else "clear")
-
-    def _info(self):
-        self.limpiar_terminal()
-        print("======Versión v5.5======")
-        print("::::::::COMANDOS::::::::")
-        print(":break     : salir")
-        print(":info      : ver comandos")
-        print("enter      : añadir nueva línea")
-        print("espacio    : añadir espacio")
-        print("caracteres : añadir caracteres")
-        print("+y         : arriba")
-        print("-y         : abajo")
-        print("-x         : izquierda")
-        print("+x         : derecha")
-        print("+y+        : primera línea")
-        print("-y-        : última línea")
-        print("+x+        : principio de línea")
-        print("-x-        : fin de la línea")
-        print("y--        : eliminar línea actual")
-        print("x--        : limpiar línea actual")
-        print("--y        : eliminar última línea")
-        print("--x        : eliminar caracter")
-        input()
 
     def dibujar(self):
         self.limpiar_terminal()
@@ -144,6 +128,12 @@ class Editor:
         self.cursor_x = len(self.matriz[self.cursor_y])
         self.cursor_x_deseado = self.cursor_x
 
+    def _tabulacion(self):
+        pass
+    
+    def _tabulacion_inversa(self):
+        pass
+
     def _añadir(self, entrada):
         self.matriz[self.cursor_y][self.cursor_x:self.cursor_x] = list(entrada)
         self.cursor_x += len(entrada)
@@ -168,7 +158,6 @@ class Editor:
             self.matriz[0] = []
         self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
         
-
     def _eliminar_ultima_linea(self):
         if len(self.matriz) > 1:
             self.matriz.pop()
@@ -176,7 +165,30 @@ class Editor:
         else:
             self.matriz[0] = []
         self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
-        
+
+    def _info(self):
+        self.limpiar_terminal()
+        print("======Versión v5.5======")
+        print("::::::::COMANDOS::::::::")
+        print(":break     : salir")
+        print(":info      : ver comandos")
+        print("enter      : añadir nueva línea")
+        print("espacio    : añadir espacio")
+        print("caracteres : añadir caracteres")
+        print("+y         : arriba")
+        print("-y         : abajo")
+        print("-x         : izquierda")
+        print("+x         : derecha")
+        print("+y+        : primera línea")
+        print("-y-        : última línea")
+        print("+x+        : principio de línea")
+        print("-x-        : fin de la línea")
+        print("y--        : eliminar línea actual")
+        print("x--        : limpiar línea actual")
+        print("--y        : eliminar última línea")
+        print("--x        : eliminar caracter")
+        input()
+
 editor = Editor()
 resultado = editor.editar()
 print(resultado)
