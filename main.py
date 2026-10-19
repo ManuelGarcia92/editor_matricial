@@ -8,82 +8,41 @@ class Editor:
         self.cursor_x_deseado = 0
         self.matriz = [[]]
 
-    def editar(self):
+    def editar(self, stdscr):
+        curses.curs_set(0)
         while True:
-            self.dibujar()
-            entrada = input()  
+            self.dibujar(stdscr)
+            tecla = stdscr.getch()
 
-            if entrada == ":break":
+            if tecla == 27:
                 break
-
-            elif entrada == ":info":
-                self._info()
-
-            elif entrada == "+y":
-                self._arriba()
-
-            elif entrada == "-y":
-                self._abajo()
-
-            elif entrada == "-x":
-                self._izquierda()
-
-            elif entrada == "+x": 
-                self._derecha()
-
-            elif entrada == "+y+":
-                self._primera_linea()
-
-            elif entrada == "-y-":
-                self._ultima_linea()
-
-            elif entrada == "+x+":
-                self._principio_linea()
-
-            elif entrada == "-x-":
-                self._fin_linea()
-
-            elif entrada == "":
+            elif tecla == curses.KEY_UP:    self._arriba()
+            elif tecla == curses.KEY_DOWN:  self._abajo()
+            elif tecla == curses.KEY_LEFT:  self._izquierda()
+            elif tecla == curses.KEY_RIGHT: self._derecha()
+            elif tecla == curses.KEY_HOME:  self._principio_linea()
+            elif tecla == curses.KEY_END:   self._fin_linea()
+            elif tecla == curses.KEY_PPAGE: self._primera_linea()
+            elif tecla == curses.KEY_NPAGE: self._ultima_linea()
+            elif tecla in (10, curses.KEY_ENTER):
                 self._añadir_linea()
-
-            elif entrada == "y--": 
-                self._eliminar_linea_actual()
-
-            elif entrada == "x--":
-                self._limpiar_linea_actual()
-
-            elif entrada == "x++":
-                self._tabulacion()
-
-            elif entrada == "--y":
-                self._eliminar_ultima_linea()
-
-            elif entrada == "--x": 
+            elif tecla in (curses.KEY_BACKSPACE, 127, 8):
                 self._eliminar_caracter()
-
-            elif entrada == "x++":
-                self._tabulacion_inversa()
-
-            else:
-                self._añadir(entrada)
-
+            elif tecla == 9:
+                self._tabulacion()
+            elif 32 <= tecla <= 126:
+                self._añadir(chr(tecla))
         return self.matriz
     
-    @staticmethod
-    def limpiar_terminal() -> None:
-        import os
-        os.system("cls" if os.name == "nt" else "clear")
-
-    def dibujar(self):
-        self.limpiar_terminal()
-        print(f"Cursor x deseado : {self.cursor_x_deseado}")
-        print(f"Cursor x         : {self.cursor_x}")
-        print(f"Cursor y         : {self.cursor_y}")
+    def dibujar(self, stdscr):
+        stdscr.erase()
+        stdscr.addstr(0, 0, f"x deseado : {self.cursor_x_deseado} x : {self.cursor_x} y : {self.cursor_y}")
         for i, linea in enumerate(self.matriz):
             texto = "".join(linea)
             if i == self.cursor_y:
                 texto = texto[:self.cursor_x] + "<" + texto[self.cursor_x:]
-            print(f"{i + 1} >>> : {texto}")
+            stdscr.addstr(i + 2, 0, f"{i + 1} >>> : {texto}")
+        stdscr.refresh()
 
     def _arriba(self):
         if self.cursor_y > 0:
@@ -106,20 +65,6 @@ class Editor:
             self.cursor_x += 1
             self.cursor_x_deseado = self.cursor_x
 
-    def _añadir_linea(self):
-        if self.cursor_y == len(self.matriz) - 1:
-            self.matriz.append([])
-        self.cursor_y += 1
-        self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
-
-    def _primera_linea(self):
-        self.cursor_y = 0
-        self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
-    
-    def _ultima_linea(self):
-        self.cursor_y = len(self.matriz) - 1
-        self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
-
     def _principio_linea(self):
         self.cursor_x = 0
         self.cursor_x_deseado = self.cursor_x
@@ -127,6 +72,20 @@ class Editor:
     def _fin_linea(self):
         self.cursor_x = len(self.matriz[self.cursor_y])
         self.cursor_x_deseado = self.cursor_x
+
+    def _primera_linea(self):
+        self.cursor_y = 0
+        self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
+
+    def _ultima_linea(self):
+        self.cursor_y = len(self.matriz) - 1
+        self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
+
+    def _añadir_linea(self):
+        if self.cursor_y == len(self.matriz) - 1:
+            self.matriz.append([])
+        self.cursor_y += 1
+        self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
 
     def _tabulacion(self):
         pass
@@ -190,7 +149,7 @@ class Editor:
         input()
 
 editor = Editor()
-resultado = editor.editar()
+resultado = curses.wrapper(editor.editar)
 print(resultado)
 
     
