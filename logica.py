@@ -1,4 +1,4 @@
-class logica:
+class Logica:
     def __init__(self):
         self.cursor_y = 0
         self.cursor_x = 0

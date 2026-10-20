@@ -1,4 +1,4 @@
-class Pantalla:
+class Interfaz:
     def __init__(self, logica):
         self.logica = logica
         self.scroll_y = 0
