@@ -3,7 +3,7 @@ class Pantalla:
         self.logica = logica
         self.scroll_y = 0
         self.scroll_x = 0
-        self.prefijo = "999 >>> : "
+        self.prefijo = "999 | "
 
     def dibujar(self, stdscr):
         stdscr.erase()
@@ -28,7 +28,7 @@ class Pantalla:
             if i == self.logica.cursor_y:
                 texto = texto[:self.logica.cursor_x] + "<" + texto[self.logica.cursor_x:]
             visible = texto[self.scroll_x : self.scroll_x + ancho_texto]
-            stdscr.addstr(fila + 3, 0, f"{i + 1} >>> {visible}")
+            stdscr.addstr(fila + 3, 0, f"{self._ajustar_numero(i)} | {visible}")
         stdscr.refresh()
 
     def _ajustar_texto(self, ancho_texto):
@@ -42,3 +42,10 @@ class Pantalla:
             self.scroll_y = self.logica.cursor_y
         elif self.logica.cursor_y >= self.scroll_y + lineas_visibles:
             self.scroll_y = self.logica.cursor_y - lineas_visibles + 1
+
+    @staticmethod
+    def _ajustar_numero(numero, largo=3):
+        numero = str(numero)
+        largo = largo - len(numero)
+        return largo * " " + numero
+    

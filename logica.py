@@ -50,9 +50,9 @@ class logica:
         self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
 
     def añadir_linea(self):
-        linea = self.matriz[self.cursor_y]
-        resto = linea[self.cursor_x:]
-        del linea[self.cursor_x:]
+        linea_actual = self.matriz[self.cursor_y]
+        resto = linea_actual[self.cursor_x:]
+        del linea_actual[self.cursor_x:]
         self.matriz.insert(self.cursor_y + 1, resto)
         self.cursor_y += 1
         self.cursor_x = 0
@@ -88,9 +88,10 @@ class logica:
             self.matriz[self.cursor_y].pop(self.cursor_x - 1)
             self.cursor_x -= 1
             self.cursor_x_deseado = self.cursor_x
-        elif self.cursor_x == 0 and len(self.matriz) > 1 and len(self.matriz[self.cursor_y]) == 0:
-            self.matriz.pop(self.cursor_y)
-            self.cursor_y -= 1
-            self.cursor_x = len(self.matriz[self.cursor_y])
+        elif self.cursor_x == 0 and self.cursor_y > 0:
+            if len(self.matriz) > 1 and len(self.matriz[self.cursor_y]) == 0:
+                self.matriz.pop(self.cursor_y)
+                self.cursor_y -= 1
+                self.cursor_x = len(self.matriz[self.cursor_y])
             
    
