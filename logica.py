@@ -35,7 +35,7 @@ class logica:
 
     def principio_linea(self):
         self.cursor_x = 0
-        self.cursor_x_deseado = self.cursor_x
+        self.cursor_x_deseado = 0
 
     def fin_linea(self):
         self.cursor_x = len(self.matriz[self.cursor_y])
@@ -63,7 +63,7 @@ class logica:
         n = 4 - (self.cursor_x % 4)
         libre = self.ancho_max - len(linea)
         if libre > 0:
-            self.añadir([' '] * min(n, libre))
+            self.añadir_caracter([' '] * min(n, libre))
         else:
             self.cursor_x = min(self.cursor_x + n, len(linea))
             self.cursor_x_deseado = self.cursor_x
@@ -75,7 +75,7 @@ class logica:
         self.cursor_x -= n
         self.cursor_x_deseado = self.cursor_x
 
-    def añadir(self, entrada):
+    def añadir_caracter(self, entrada):
         linea = self.matriz[self.cursor_y]
         if len(linea) + len(entrada) > self.ancho_max:
             return
@@ -93,15 +93,4 @@ class logica:
             self.cursor_y -= 1
             self.cursor_x = len(self.matriz[self.cursor_y])
             
-    def limpiar_linea_actual(self):
-        self.matriz[self.cursor_y] = []
-        self.cursor_x = 0
-        self.cursor_x_deseado = self.cursor_x
-
-    def eliminar_linea_actual(self):
-        if len(self.matriz) > 1:
-            self.matriz.pop(self.cursor_y)
-            self.cursor_y = min(self.cursor_y, len(self.matriz) - 1)
-        else:
-            self.matriz[0] = []
-        self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
+   

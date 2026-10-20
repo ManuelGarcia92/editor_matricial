@@ -10,17 +10,17 @@ class Pantalla:
         alto, ancho = stdscr.getmaxyx()
         self.logica.ancho_max = ancho - len(self.prefijo) - 2
         ancho_texto = ancho - len(self.prefijo) - 1
-        filas_visibles = alto - 3
+        lineas_visibles = alto - 3
 
         self._ajustar_texto(ancho_texto)
-        self._ajustar_filas(filas_visibles)
-        self._dibujar_interfaz(stdscr, ancho_texto, filas_visibles)
+        self._ajustar_lineas(lineas_visibles)
+        self._dibujar_interfaz(stdscr, ancho_texto, lineas_visibles)
 
-    def _dibujar_interfaz(self, stdscr, ancho_texto, filas_visibles):
+    def _dibujar_interfaz(self, stdscr, ancho_texto, lineas_visibles):
         stdscr.addstr(0, 0, f"x deseado : {self.logica.cursor_x_deseado}")
         stdscr.addstr(1, 0, f"cursor x  : {self.logica.cursor_x}")
         stdscr.addstr(2, 0, f"cursor y  : {self.logica.cursor_y}")
-        for fila in range(filas_visibles):
+        for fila in range(lineas_visibles):
             i = self.scroll_y + fila
             if i >= len(self.logica.matriz):
                 break
@@ -37,8 +37,8 @@ class Pantalla:
         elif self.logica.cursor_x >= self.scroll_x + ancho_texto:
             self.scroll_x = self.logica.cursor_x - ancho_texto + 1
 
-    def _ajustar_filas(self, filas_visibles):
+    def _ajustar_lineas(self, lineas_visibles):
         if self.logica.cursor_y < self.scroll_y:
             self.scroll_y = self.logica.cursor_y
-        elif self.logica.cursor_y >= self.scroll_y + filas_visibles:
-            self.scroll_y = self.logica.cursor_y - filas_visibles + 1
+        elif self.logica.cursor_y >= self.scroll_y + lineas_visibles:
+            self.scroll_y = self.logica.cursor_y - lineas_visibles + 1

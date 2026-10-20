@@ -40,7 +40,7 @@ class Editor:
             elif tecla == curses.KEY_BTAB:
                 self.logica.tabulacion_inversa()
             elif 32 <= tecla <= 126:
-                self.logica.añadir(chr(tecla))
+                self.logica.añadir_caracter(chr(tecla))
         return self.logica.matriz
 
     def salida(self):
