@@ -32,6 +32,7 @@ class Logica:
         elif self.cursor_x == len(self.matriz[self.cursor_y]) and self.cursor_y < len(self.matriz) - 1:
             self.cursor_y += 1
             self.cursor_x = 0
+            self.cursor_x_deseado = 0
 
     def principio_linea(self):
         self.cursor_x = 0
