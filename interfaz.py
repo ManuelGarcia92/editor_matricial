@@ -17,7 +17,7 @@ class Interfaz:
         self._dibujar_interfaz(stdscr, ancho_texto, lineas_visibles)
 
     def _dibujar_interfaz(self, stdscr, ancho_texto, lineas_visibles):
-        self._dibujar_datos_cursores(stdscr)
+        self._mostrar_cursores(stdscr)
         for fila in range(lineas_visibles):
             i = self.scroll_y + fila
             if i >= len(self.logica.matriz):
@@ -30,7 +30,7 @@ class Interfaz:
             stdscr.addstr(fila + 3, 0, f"{self._ajustar_numero(i, largo_numero)} | {texto_visible}")
         stdscr.refresh()
 
-    def _dibujar_datos_cursores(self, stdscr):
+    def _mostrar_cursores(self, stdscr):
         stdscr.addstr(0, 0, f"x deseado : {self.logica.cursor_x_deseado}")
         stdscr.addstr(1, 0, f"cursor x  : {self.logica.cursor_x}")
         stdscr.addstr(2, 0, f"cursor y  : {self.logica.cursor_y}")

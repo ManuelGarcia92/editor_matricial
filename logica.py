@@ -23,6 +23,7 @@ class Logica:
         elif self.cursor_x == 0 and self.cursor_y > 0:
             self.cursor_y -= 1
             self.cursor_x = len(self.matriz[self.cursor_y])
+            self.cursor_x_deseado = self.cursor_x
                     
     def derecha(self):
         if self.cursor_x < len(self.matriz[self.cursor_y]):
