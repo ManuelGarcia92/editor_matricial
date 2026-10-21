@@ -43,7 +43,5 @@ class Editor:
         return self.logica.matriz
 
     def salida(self):
-        return curses.wrapper(self._entrada)
-
-
-        
+        return curses.wrapper(self._entrada) 
+    

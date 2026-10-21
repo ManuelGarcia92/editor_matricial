@@ -12,10 +12,9 @@ class Logica:
             self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
 
     def abajo(self):
-        if self.cursor_y == len(self.matriz) - 1:
-            self.matriz.append([])
-        self.cursor_y += 1
-        self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
+        if self.cursor_y < len(self.matriz) - 1:
+            self.cursor_y += 1
+            self.cursor_x = min(self.cursor_x_deseado, len(self.matriz[self.cursor_y]))
         
     def izquierda(self):
         if self.cursor_x > 0:
@@ -56,8 +55,8 @@ class Logica:
         self.matriz.insert(self.cursor_y + 1, resto)
         self.cursor_y += 1
         self.cursor_x = 0
-        self.cursor_x_deseado = 0
-
+        self.cursor_x_deseado 
+                                                
     def tabulacion(self):
         linea = self.matriz[self.cursor_y]
         n = 4 - (self.cursor_x % 4)
@@ -72,7 +71,10 @@ class Logica:
         if self.cursor_x == 0:
             return
         n = self.cursor_x % 4 or 4
-        self.cursor_x -= n
+        for i in range(n):
+            if self.matriz[self.cursor_y][0] == " ":
+                del self.matriz[self.cursor_y][0]
+                self.cursor_x -= 1
         self.cursor_x_deseado = self.cursor_x
 
     def añadir_caracter(self, entrada):
@@ -84,14 +86,22 @@ class Logica:
         self.cursor_x_deseado = self.cursor_x
 
     def eliminar_caracter(self): 
-        if  self.cursor_x > 0:
+        if self.cursor_x > 0:
             self.matriz[self.cursor_y].pop(self.cursor_x - 1)
             self.cursor_x -= 1
             self.cursor_x_deseado = self.cursor_x
         elif self.cursor_x == 0 and self.cursor_y > 0:
-            if len(self.matriz) > 1 and len(self.matriz[self.cursor_y]) == 0:
-                self.matriz.pop(self.cursor_y)
-                self.cursor_y -= 1
-                self.cursor_x = len(self.matriz[self.cursor_y])
+            if len(self.matriz[self.cursor_y - 1]) == 0:
+                self._eliminar_linea_superior_vacia()
+            elif len(self.matriz) > 1 and len(self.matriz[self.cursor_y]) == 0:
+                self._eliminar_linea_actual_vacia()
             
-   
+    def _eliminar_linea_superior_vacia(self):
+        self.matriz.pop(self.cursor_y - 1)
+        self.cursor_y -= 1
+        self.cursor_x = len(self.matriz[self.cursor_y])
+
+    def _eliminar_linea_actual_vacia(self):
+        self.matriz.pop(self.cursor_y)
+        self.cursor_y -= 1
+        self.cursor_x = len(self.matriz[self.cursor_y])

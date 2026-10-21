@@ -3,7 +3,7 @@ class Interfaz:
         self.logica = logica
         self.scroll_y = 0
         self.scroll_x = 0
-        self.prefijo = "999 | "
+        self.prefijo = "999999999 | "
 
     def dibujar(self, stdscr):
         stdscr.erase()
@@ -17,9 +17,7 @@ class Interfaz:
         self._dibujar_interfaz(stdscr, ancho_texto, lineas_visibles)
 
     def _dibujar_interfaz(self, stdscr, ancho_texto, lineas_visibles):
-        stdscr.addstr(0, 0, f"x deseado : {self.logica.cursor_x_deseado}")
-        stdscr.addstr(1, 0, f"cursor x  : {self.logica.cursor_x}")
-        stdscr.addstr(2, 0, f"cursor y  : {self.logica.cursor_y}")
+        self._dibujar_datos_cursores(stdscr)
         for fila in range(lineas_visibles):
             i = self.scroll_y + fila
             if i >= len(self.logica.matriz):
@@ -27,9 +25,15 @@ class Interfaz:
             texto = "".join(self.logica.matriz[i])
             if i == self.logica.cursor_y:
                 texto = texto[:self.logica.cursor_x] + "<" + texto[self.logica.cursor_x:]
-            visible = texto[self.scroll_x : self.scroll_x + ancho_texto]
-            stdscr.addstr(fila + 3, 0, f"{self._ajustar_numero(i)} | {visible}")
+            texto_visible = texto[self.scroll_x : self.scroll_x + ancho_texto]
+            largo_numero = len(str(len(self.logica.matriz)))
+            stdscr.addstr(fila + 3, 0, f"{self._ajustar_numero(i, largo_numero)} | {texto_visible}")
         stdscr.refresh()
+
+    def _dibujar_datos_cursores(self, stdscr):
+        stdscr.addstr(0, 0, f"x deseado : {self.logica.cursor_x_deseado}")
+        stdscr.addstr(1, 0, f"cursor x  : {self.logica.cursor_x}")
+        stdscr.addstr(2, 0, f"cursor y  : {self.logica.cursor_y}")
 
     def _ajustar_texto(self, ancho_texto):
         if self.logica.cursor_x < self.scroll_x:
@@ -44,7 +48,7 @@ class Interfaz:
             self.scroll_y = self.logica.cursor_y - lineas_visibles + 1
 
     @staticmethod
-    def _ajustar_numero(numero, largo=3):
+    def _ajustar_numero(numero, largo):
         numero = str(numero)
         largo = largo - len(numero)
         return largo * " " + numero
