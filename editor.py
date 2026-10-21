@@ -44,4 +44,11 @@ class Editor:
 
     def salida(self):
         return curses.wrapper(self._entrada) 
+
+    @staticmethod
+    def formatear_matriz(matriz):
+        matriz_formateada = ""
+        for linea in matriz:
+            matriz_formateada += "".join(linea)
+        return matriz_formateada
     
