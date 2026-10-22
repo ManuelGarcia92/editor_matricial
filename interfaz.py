@@ -18,6 +18,7 @@ class Interfaz:
 
     def _dibujar_interfaz(self, stdscr, ancho_texto, lineas_visibles):
         self._mostrar_cursores(stdscr)
+        ancho_numero = len(str(len(self.logica.matriz)))
         for fila in range(lineas_visibles):
             i = self.scroll_y + fila
             if i >= len(self.logica.matriz):
@@ -26,8 +27,7 @@ class Interfaz:
             if i == self.logica.cursor_y:
                 texto = texto[:self.logica.cursor_x] + "<" + texto[self.logica.cursor_x:]
             texto_visible = texto[self.scroll_x : self.scroll_x + ancho_texto]
-            largo_numero = len(str(len(self.logica.matriz)))
-            stdscr.addstr(fila + 3, 0, f"{self._ajustar_numero(i, largo_numero)} | {texto_visible}")
+            stdscr.addstr(fila + 3, 0, f"{self._ajustar_numero(i, ancho_numero)} | {texto_visible}")
         stdscr.refresh()
 
     def _mostrar_cursores(self, stdscr):
@@ -48,8 +48,8 @@ class Interfaz:
             self.scroll_y = self.logica.cursor_y - lineas_visibles + 1
 
     @staticmethod
-    def _ajustar_numero(numero, largo):
+    def _ajustar_numero(numero, ancho):
         numero = str(numero)
-        largo = largo - len(numero)
-        return largo * " " + numero
+        ancho = ancho - len(numero)
+        return ancho * " " + numero
     
