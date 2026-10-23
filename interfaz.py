@@ -1,4 +1,4 @@
-class Interfaz:
+class Interfaz_editor:
     def __init__(self, logica):
         self.logica = logica
         self.scroll_y = 0
@@ -27,7 +27,7 @@ class Interfaz:
             if i == self.logica.cursor_y:
                 texto = texto[:self.logica.cursor_x] + "<" + texto[self.logica.cursor_x:]
             texto_visible = texto[self.scroll_x : self.scroll_x + ancho_texto]
-            stdscr.addstr(fila + 3, 0, f"{self._ajustar_numero(i, ancho_numero)} | {texto_visible}")
+            stdscr.addstr(fila + 3, 0, f"{self._ajustar_numero(i + 1, ancho_numero)} | {texto_visible}")
         stdscr.refresh()
 
     def _mostrar_cursores(self, stdscr):

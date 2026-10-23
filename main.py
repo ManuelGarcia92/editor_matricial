@@ -2,7 +2,8 @@ from editor import Editor
 
 def main() -> None:
     editor = Editor()
-    resultado = editor.salida()
+    matriz = editor.salida()
+    resultado = editor.formatear_matriz(matriz)
     print(resultado)
 
 if __name__ == "__main__":

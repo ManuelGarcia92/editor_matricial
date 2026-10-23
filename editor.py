@@ -1,11 +1,11 @@
 from logica import Logica
-from interfaz import Interfaz
+from interfaz import Interfaz_editor
 import curses
 
 class Editor:
     def __init__(self):
         self.logica = Logica()
-        self.interfaz = Interfaz(self.logica)
+        self.interfaz = Interfaz_editor(self.logica)
         self.controles = {
             curses.KEY_UP        : self.logica.arriba,
             curses.KEY_DOWN      : self.logica.abajo,
@@ -50,5 +50,6 @@ class Editor:
         matriz_formateada = ""
         for linea in matriz:
             matriz_formateada += "".join(linea)
+            matriz_formateada += "\n"
         return matriz_formateada
     
