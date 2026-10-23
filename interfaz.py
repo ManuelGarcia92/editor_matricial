@@ -27,14 +27,16 @@ class Interfaz_editor:
             if i == self.logica.cursor_y:
                 texto = texto[:self.logica.cursor_x] + "<" + texto[self.logica.cursor_x:]
             texto_visible = texto[self.scroll_x : self.scroll_x + ancho_texto]
-            stdscr.addstr(fila + 3, 0, f"{self._ajustar_numero(i + 1, ancho_numero)} | {texto_visible}")
+            stdscr.addstr(fila, 0, f"{self._ajustar_numero(i + 1, ancho_numero)} | {texto_visible}")
         stdscr.refresh()
 
-    def _mostrar_cursores(self, stdscr):
-        stdscr.addstr(0, 0, f"x deseado : {self.logica.cursor_x_deseado}")
-        stdscr.addstr(1, 0, f"cursor x  : {self.logica.cursor_x}")
-        stdscr.addstr(2, 0, f"cursor y  : {self.logica.cursor_y}")
-
+    def _mostrar_cursores(self, stdscr, activo=False):
+        if activo:
+            stdscr.addstr(0, 0, f"x deseado : {self.logica.cursor_x_deseado}")
+            stdscr.addstr(1, 0, f"cursor x  : {self.logica.cursor_x}")
+            stdscr.addstr(2, 0, f"cursor y  : {self.logica.cursor_y}")
+        
+    
     def _ajustar_texto(self, ancho_texto):
         if self.logica.cursor_x < self.scroll_x:
             self.scroll_x = self.logica.cursor_x
